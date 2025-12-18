@@ -470,7 +470,6 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
-
   {
     'nvim-telescope/telescope-file-browser.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
@@ -479,6 +478,22 @@ require('lazy').setup({
 
     -- open file_browser with the path of the current buffer
     vim.keymap.set('n', '<leader>b', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'File Browser' }),
+  },
+  {
+    'backdround/global-note.nvim',
+    config = function()
+      local global_note = require 'global-note'
+      global_note.setup {
+        -- Optional configuration goes here
+        -- filename = "global.md",
+        -- directory = "~/notes/",
+      }
+
+      -- Keymap to toggle the note
+      vim.keymap.set('n', '<leader>n', global_note.toggle_note, {
+        desc = 'Toggle global note',
+      })
+    end,
   },
 
   -- LSP Plugins
