@@ -408,11 +408,16 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            i = {
+              ['<C-h>'] = require('telescope.actions').preview_scrolling_left,
+              ['<C-j>'] = require('telescope.actions').preview_scrolling_down,
+              ['<C-k>'] = require('telescope.actions').preview_scrolling_up,
+              ['<C-l>'] = require('telescope.actions').preview_scrolling_right,
+            },
+          },
+        },
         pickers = {
           find_files = {
             no_ignore = true,
@@ -441,6 +446,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      --      vim.keymap.set('n', '<leader>sg', function()
+      --        require('telescope.builtin').live_grep { cwd = vim.fn.expand '%:p:h' }
+      --      end, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -452,6 +460,11 @@ require('lazy').setup({
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = false,
+          layout_config = {
+            width = 0.9,
+            height = 0.9,
+          },
+          --          wrap_results = true,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
@@ -494,6 +507,23 @@ require('lazy').setup({
         desc = 'Toggle global note',
       })
     end,
+  },
+  {
+    'LukasPietzschmann/telescope-tabs',
+    config = function()
+      require('telescope').load_extension 'telescope-tabs'
+      require('telescope-tabs').setup {
+        -- vim.keymap.set('n', '<leader>b', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = 'File Browser' }),
+        -- Your custom config :^)
+      }
+    end,
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+  },
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    ft = { 'markdown' },
+    build = ':call mkdp#util#install()',
   },
 
   -- LSP Plugins
