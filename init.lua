@@ -525,6 +525,13 @@ require('lazy').setup({
     ft = { 'markdown' },
     build = ':call mkdp#util#install()',
   },
+  {
+    'FabijanZulj/blame.nvim',
+    lazy = false,
+    config = function()
+      require('blame').setup {}
+    end,
+  },
 
   -- LSP Plugins
   {
